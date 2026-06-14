@@ -1,0 +1,26 @@
+languages:
+  - code: ta
+    name: Tamil
+    hf_dataset: ai4bharat/samanantar
+    hf_split: train
+    hf_column: tgt
+    unicode_block: "0B80-0BFF"
+    flores_code: tam_Taml
+    min_ratio: 0.5
+
+pipeline:
+  corpus_dir: data/raw
+  clean_dir: data/clean
+  weights_dir: data/weights
+  min_line_length: 10
+  vocab_sizes: [16000, 32000, 48000]
+
+training:
+  algorithms: [bpe, unigram]
+  pretokenizer: whitespace
+  special_tokens:
+    - "<unk>"
+    - "<s>"
+    - "</s>"
+    - "<pad>"
+    - "<mask>"

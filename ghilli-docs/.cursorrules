@@ -1,0 +1,59 @@
+# .cursorrules — Ghilli Project
+
+## Project Overview
+Ghilli is a grapheme-aware tokenizer library for Indian Abugida scripts (Tamil, Malayalam,
+Hindi, Sinhala, Kannada, Telugu, Bengali, etc.). The core insight: pre-tokenization
+has more impact than the tokenization algorithm itself (Velayuthan & Sarveswaran, COLING 2025).
+
+## Architecture Principles
+
+- Single entry point: `pipeline/pipeline.py --langs ta`
+- All parameters in `pipeline/config.yaml` — never hardcode language codes, paths, or vocab sizes
+- One file per algorithm: `ghilli/algorithms/gpe.py`, `unigram.py`, `wordpiece.py`
+- Each pipeline stage is independently resumable (skip if output already exists)
+
+## Critical Rules — Never Violate These
+
+1. **Always NFC normalize first**: `unicodedata.normalize("NFC", text)` before ANY processing
+2. **Never use GPT-2 regex pre-tokenizer**: Use `pre_tokenizers.Whitespace()` only
+3. **Use grapheme library for splitting**: `grapheme.graphemes(text)` not `list(text)` not bytes
+4. **Never train on FLORES+**: It is benchmark-only eval data — keep it clean
+5. **Resumability always**: Check `if output_path.exists(): return output_path` in every stage
+
+## Language Codes and Unicode Blocks
+
+Tamil: ta | U+0B80–U+0BFF | flores: tam_Taml
+Hindi: hi | U+0900–U+097F | flores: hin_Deva
+Malayalam: ml | U+0D00–U+0D7F | flores: mal_Mlym
+Sinhala: si | U+0D80–U+0DFF | flores: sin_Sinh
+Kannada: kn | U+0C80–U+0CFF | flores: kan_Knda
+Telugu: te | U+0C00–U+0C7F | flores: tel_Telu
+Bengali: bn | U+0980–U+09FF | flores: ben_Beng
+
+## Metrics
+
+Compression Ratio: grapheme_count / token_count (higher = better, ~5× for English)
+Tokenization Parity: native_token_count / english_token_count (ideal = 1.0)
+Morpheme Alignment: fraction of token boundaries on true morpheme boundaries (novel metric)
+
+## Key Dependencies
+
+grapheme>=0.6.0 — grapheme cluster extraction
+tokenizers>=0.15.0 — HuggingFace tokenizers (Rust-backed, fast)
+datasets>=2.14.0 — HuggingFace datasets (Samanantar corpus)
+pyyaml>=6.0 — config loading
+tqdm>=4.65.0 — progress bars
+
+## Corpus
+
+Training: ai4bharat/samanantar (HF dataset, already downloaded to local cache)
+Samanantar columns: idx, src (English), tgt (Tamil/other language)
+Eval only: facebook/flores (tam_Taml, hin_Deva, etc.)
+
+## Code Style
+
+- Type hints on all function signatures
+- Logger over print() — use `logging.getLogger(__name__)`
+- Pathlib over os.path
+- f-strings for formatting
+- No magic numbers — everything in config.yaml

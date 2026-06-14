@@ -1,0 +1,9 @@
+data/
+*.pyc
+__pycache__/
+.venv/
+*.egg-info/
+dist/
+build/
+corpus_ta_raw.txt
+.DS_Store

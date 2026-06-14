@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "ghilli"
+version = "0.1.0"
+description = "Grapheme-aware tokenizer for Indian Abugida scripts"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.9"
+keywords = ["nlp", "tokenizer", "tamil", "indic", "abugida", "bpe"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "tokenizers>=0.15.0",
+    "grapheme>=0.6.0",
+    "datasets>=2.14.0",
+    "pyyaml>=6.0",
+    "tqdm>=4.65.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/ghilli/ghilli"
+
+[tool.setuptools.packages.find]
+include = ["ghilli*"]
