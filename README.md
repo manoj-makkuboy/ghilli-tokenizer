@@ -4,7 +4,15 @@
 
 > *"Strike at the right boundary."*
 
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ghilli-tokenizer.streamlit.app/)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+
 Named after the [Tamil street sport](https://en.wikipedia.org/wiki/Gilli-danda) where a small stick (gilli) is struck at exactly the right point and sent flying — a metaphor for grapheme-level tokenization that splits text at linguistically correct boundaries.
+
+### [Try the Live Playground](https://ghilli-tokenizer.streamlit.app/)
+
+Compare Ghilli against GPT-2, GPT-4, and GPT-4o on Tamil text — see how **7 tokens** replace **129**.
 
 ---
 
