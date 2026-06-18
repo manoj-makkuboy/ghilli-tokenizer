@@ -4,6 +4,7 @@
 
 > *"Strike at the right boundary."*
 
+[![PyPI](https://img.shields.io/pypi/v/ghilli.svg)](https://pypi.org/project/ghilli/)
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ghilli-tokenizer.streamlit.app/)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
@@ -49,10 +50,7 @@ The pre-tokenizer alone accounts for a **3x improvement**. Algorithm choice (BPE
 ### Install
 
 ```bash
-git clone https://github.com/ghilli/ghilli.git
-cd ghilli
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
+pip install ghilli
 ```
 
 ### Use a Trained Tokenizer
