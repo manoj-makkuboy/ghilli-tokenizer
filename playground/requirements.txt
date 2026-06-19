@@ -1,5 +1,4 @@
 streamlit>=1.30.0
 tiktoken>=0.5.0
-tokenizers>=0.15.0
-grapheme>=0.6.0
+ghilli>=0.1.0
 pandas>=2.0.0

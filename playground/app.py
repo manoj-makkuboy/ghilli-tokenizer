@@ -1,14 +1,10 @@
 """Ghilli Tokenizer Playground — compare Tamil tokenization across models."""
 
 import os
-import sys
-
-# Add project root so ghilli is importable
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import streamlit as st
 import tiktoken
-from tokenizers import Tokenizer
+from ghilli import GhilliTokenizer
 
 # ---------------------------------------------------------------------------
 # Page config
@@ -44,8 +40,8 @@ TOKEN_COLORS = [
 # Tokenizer loaders (cached)
 # ---------------------------------------------------------------------------
 @st.cache_resource
-def load_ghilli_tokenizer(path: str) -> Tokenizer:
-    return Tokenizer.from_file(path)
+def load_ghilli_tokenizer(path: str) -> GhilliTokenizer:
+    return GhilliTokenizer(path)
 
 
 @st.cache_resource
@@ -264,7 +260,7 @@ with Tokenizers"*
         st.divider()
         st.markdown(
             "**Ghilli** (கிள்ளி) — *Strike at the right boundary.*\n\n"
-            "[GitHub](https://github.com/ghilli/ghilli) · "
+            "[GitHub](https://github.com/manoj-makkuboy/ghilli-tokenizer) · "
             "Apache 2.0"
         )
 
