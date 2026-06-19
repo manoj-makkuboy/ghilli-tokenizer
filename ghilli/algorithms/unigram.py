@@ -6,9 +6,10 @@ from .base import BaseTokenizer
 
 
 class UnigramTokenizer(BaseTokenizer):
-    """Unigram tokenizer with grapheme-aware initial alphabet and whitespace pre-tokenizer.
+    """Unigram tokenizer with grapheme-aware initial alphabet and Metaspace pre-tokenizer.
 
     Same grapheme-seeded alphabet as GPE, but uses Unigram model instead of BPE.
+    Uses Metaspace pre-tokenizer/decoder for correct whitespace reconstruction.
     """
 
     def train(self, corpus_path: str, initial_alphabet: list[str] | None = None) -> None:

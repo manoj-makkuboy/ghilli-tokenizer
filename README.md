@@ -31,7 +31,7 @@ GPT-2's regex pre-tokenizer treats Tamil vowel modifiers (Unicode category: Mark
 ```
 "தமிழ்" (Tamil)
 
-  GPT-2 sees:    ['த', 'ம', 'ி', 'ழ', '்']     → 5 codepoints, split apart
+  GPT-2 sees:    ['த', 'ம', 'ி', 'ழ', '்']     → 5 separate tokens, split apart
   Ghilli sees:   ['த', 'மி', 'ழ்']               → 3 graphemes, kept intact
 ```
 
@@ -43,7 +43,7 @@ Based on [Velayuthan & Sarveswaran (COLING 2025)](https://aclanthology.org/2025.
 2. **Grapheme clusters as atomic units** — vowel modifiers stay attached to consonants
 3. **Grapheme-seeded initial alphabet** — the tokenizer can never tear apart what belongs together
 
-The pre-tokenizer alone accounts for a **3x improvement**. Algorithm choice (BPE vs Unigram) only contributes ~0.04x.
+The pre-tokenizer alone accounts for a **3x improvement**. Algorithm choice (BPE vs Unigram) only contributes ~0.04 difference in compression ratio.
 
 ## Quick Start
 
@@ -54,6 +54,8 @@ pip install ghilli
 ```
 
 ### Use a Trained Tokenizer
+
+Pre-trained weights are included in the [GitHub repo](https://github.com/manoj-makkuboy/ghilli-tokenizer/tree/main/data/weights/ta). Clone the repo or download the JSON files, then:
 
 ```python
 from ghilli import GhilliTokenizer
@@ -203,7 +205,8 @@ ghilli-tokenizer/
 ├── tests/
 │   ├── test_gpe.py              # 8 tests
 │   └── fixtures/sample_ta.txt   # Test data
-├── data/                        # Generated (gitignored)
+├── data/weights/                 # Trained tokenizer weights (committed)
+├── data/raw/, data/clean/       # Corpus files (gitignored, regenerable via pipeline)
 ├── pyproject.toml
 ├── requirements.txt
 ├── LICENSE                      # Apache 2.0
@@ -275,11 +278,14 @@ Key finding: Switching only the pre-tokenizer from GPT-2 regex to whitespace imp
 
 ## Dependencies
 
+Core library (`pip install ghilli`):
 - [tokenizers](https://github.com/huggingface/tokenizers) >= 0.15.0 — HuggingFace tokenizer library
 - [grapheme](https://github.com/alvinlindstam/grapheme) >= 0.6.0 — Unicode grapheme cluster segmentation
+- [tqdm](https://github.com/tqdm/tqdm) >= 4.65.0 — progress bars
+
+Pipeline only (for training from scratch):
 - [datasets](https://github.com/huggingface/datasets) >= 2.14.0 — HuggingFace dataset loading
 - [pyyaml](https://github.com/yaml/pyyaml) >= 6.0 — config parsing
-- [tqdm](https://github.com/tqdm/tqdm) >= 4.65.0 — progress bars
 
 ## License
 

@@ -166,10 +166,10 @@ line = unicodedata.normalize("NFC", line)
 
 This is the most critical step. Tamil text in the wild mixes **composed** and **decomposed** Unicode forms. The same visual character can be encoded two different ways:
 
-- Composed (NFC): `கா` = U+0B95 U+0BBE (2 codepoints)
-- Decomposed (NFD): `கா` = U+0B95 U+0BBE (may be stored as 3+ codepoints in some forms)
+- Composed (NFC): `கா` = U+0B95 U+0BBE (2 codepoints — consonant + dependent vowel sign)
+- Decomposed (NFD): `கா` = U+0B95 U+0BC6 U+0BBE (3 codepoints — consonant + decomposed vowel components)
 
-Without NFC normalization, the tokenizer would treat these as different tokens. NFC ensures every character is in its canonical composed form.
+Tamil doesn't have many NFC/NFD differences in practice, but mixed-encoding corpora do appear in the wild (copy-paste from PDFs, web scraping, different editor encodings). Without NFC normalization, the tokenizer would treat identical-looking text as different tokens. NFC ensures every character is in its canonical composed form.
 
 #### 2. Whitespace Collapse
 

@@ -2,6 +2,8 @@
 
 import os
 
+import grapheme
+import pandas as pd
 import streamlit as st
 import tiktoken
 from ghilli import GhilliTokenizer
@@ -56,10 +58,7 @@ def get_available_ghilli_models() -> dict[str, str]:
         return models
     for f in sorted(os.listdir(WEIGHTS_DIR)):
         if f.endswith(".json"):
-            name = f.replace(".json", "").replace("ghilli-ta-", "Ghilli ").replace("-", " ").upper()
-            # Nicer display name
-            name = f.replace(".json", "")
-            label = name.replace("ghilli-ta-", "").replace("-", " ").upper()
+            label = f.replace(".json", "").replace("ghilli-ta-", "").replace("-", " ").upper()
             models[f"Ghilli {label}"] = os.path.join(WEIGHTS_DIR, f)
     return models
 
@@ -109,7 +108,6 @@ def render_tokens_html(tokens: list[str], colors: list[str] = TOKEN_COLORS) -> s
 
 def render_comparison_card(name: str, tokens: list[str], text: str):
     """Render a single tokenizer result card."""
-    import grapheme
     grapheme_count = len(list(grapheme.graphemes(text.replace(" ", ""))))
     token_count = len(tokens)
     cr = grapheme_count / token_count if token_count > 0 else 0
@@ -191,7 +189,6 @@ def main():
         else:
             continue
 
-        import grapheme
         grapheme_count = len(list(grapheme.graphemes(text.replace(" ", ""))))
         token_count = len(tokens)
         cr = grapheme_count / token_count if token_count > 0 else 0
@@ -207,7 +204,6 @@ def main():
         st.divider()
         st.subheader("Token Count Comparison")
 
-        import pandas as pd
         df = pd.DataFrame(summary)
         # Color Ghilli bars differently
         st.bar_chart(df.set_index("Tokenizer")["Tokens"], horizontal=True)
@@ -215,7 +211,7 @@ def main():
         st.caption(
             "**Fewer tokens = better.** "
             "Ghilli's grapheme-aware approach keeps Tamil characters intact, "
-            "while GPT-2 tears them into individual bytes (129 tokens for a single sentence). "
+            "while GPT-2 tears them into byte-level subwords (129 tokens for a single sentence). "
             "Compression Ratio (CR) = grapheme count / token count — higher is better."
         )
 
